@@ -29,7 +29,7 @@ While a value in `config.js` is still in [brackets], the site treats it as not s
 1. `config.js` → `whatsappNumber`, e.g. `34600111222` (digits only)
 2. ~~`config.js` → `email`~~ set to besasonos@gmail.com; used by the "Send an email" button and the form
 3. `config.js` → `reviewLink`: leave it as is to use WhatsApp, or set a booking or mailto link
-4. `config.js` → `ga4Id`: create a **new web data stream** for `ringside.urawise.eu` in GA4 (not the renovation stream) and paste its `G-…` ID. The cookie banner only appears once this is set.
+4. ~~`config.js` → `ga4Id`~~ set to `G-V2EL07BWHQ` (own Ringside property). In GA4, set Admin → Data retention to 14 months to match the privacy policy
 5. ~~Pricing~~ set to "Free review first, then a tailored quote"; to change it later, edit `pricing.text` in `index.html` and `i18n.js`
 6. ~~Business details~~ same as Urawise for now (sole trader, Portuguese NIF 335038131, Sant Adrià de Besòs address); edit the footer in `index.html` and `footer.legal` in `i18n.js` if they change
 7. ~~Privacy policy~~ done: `privacy.html` (all five languages, served at `/privacy`); update its date and text if what the site collects changes, e.g. when GA4 is switched on or a form backend is added

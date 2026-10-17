@@ -101,7 +101,8 @@
     s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(cfg.ga4Id);
     document.head.appendChild(s);
     gtag('js', new Date());
-    gtag('config', cfg.ga4Id);
+    // Keep the GA cookie on this subdomain only, separate from other urawise.eu sites
+    gtag('config', cfg.ga4Id, { cookie_domain: location.hostname });
   }
   function track(name, params) { if (loaded) gtag('event', name, params || {}); }
   document.addEventListener('click', function (e) {
@@ -112,11 +113,23 @@
     else if (a.hasAttribute('data-email-link')) track('contact_email');
   });
 
+  function clearGaCookies() {
+    document.cookie.split(';').forEach(function (c) {
+      var name = c.split('=')[0].trim();
+      if (name === '_ga' || name.indexOf('_ga_') === 0) {
+        document.cookie = name + '=; Max-Age=0; path=/; domain=' + location.hostname;
+        document.cookie = name + '=; Max-Age=0; path=/';
+      }
+    });
+  }
   function setConsent(value) {
     store.set('ringside-consent', value);
     banner.hidden = true;
     if (value === 'granted') loadGA();
-    else if (loaded) gtag('consent', 'update', { analytics_storage: 'denied' });
+    else {
+      if (loaded) gtag('consent', 'update', { analytics_storage: 'denied' });
+      clearGaCookies();
+    }
   }
   var consent = store.get('ringside-consent');
   if (gaOn) {

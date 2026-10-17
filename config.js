@@ -10,5 +10,5 @@ window.RINGSIDE_CONFIG = {
   // full link (e.g. a booking page or "mailto:you@example.com")
   reviewLink: "[WHATSAPP/EMAIL LINK]",
   // GA4 measurement ID from a NEW data stream for ringside.urawise.eu (G-XXXXXXX)
-  ga4Id: "[GA4_ID]"
+  ga4Id: "G-V2EL07BWHQ"
 };
