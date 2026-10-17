@@ -127,6 +127,7 @@
     b.addEventListener('click', function () { setConsent(b.getAttribute('data-consent')); });
   });
   document.querySelector('[data-cookie-settings]').addEventListener('click', function () { banner.hidden = false; });
+  if (new URLSearchParams(location.search).get('cookies') === '1') banner.hidden = false;
 
   var year = document.querySelector('[data-year]');
   if (year) year.textContent = new Date().getFullYear();

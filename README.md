@@ -7,6 +7,7 @@ Static HTML/CSS/JS with no build step, no database and no secrets. It deploys as
 | `index.html` | Page and English copy |
 | `i18n.js` | Spanish, Danish, Albanian and Finnish copy |
 | `main.js` | Language menu (EN/ES/DA/SQ/FI, also `?lang=da` etc.; follows the browser language on a first visit), contact links, mailto form, GA4 after consent |
+| `privacy.html`, `privacy.js` | Privacy policy in all five languages, at `/privacy` |
 | `config.js` | **Your settings**: WhatsApp, email, review link, GA4 ID |
 | `styles.css` | Crystal-blue theme with light and dark mode |
 | `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `og-image.png` | Icons and social preview image |
@@ -31,7 +32,7 @@ While a value in `config.js` is still in [brackets], the site treats it as not s
 4. `config.js` → `ga4Id`: create a **new web data stream** for `ringside.urawise.eu` in GA4 (not the renovation stream) and paste its `G-…` ID. The cookie banner only appears once this is set.
 5. ~~Pricing~~ set to "Free review first, then a tailored quote"; to change it later, edit `pricing.text` in `index.html` and `i18n.js`
 6. ~~Business details~~ same as Urawise for now (sole trader, Portuguese NIF 335038131, Sant Adrià de Besòs address); edit the footer in `index.html` and `footer.legal` in `i18n.js` if they change
-7. `[PRIVACY POLICY LINK]`: in the `index.html` footer, and `footer.privacy` for each language in `i18n.js`
+7. ~~Privacy policy~~ done: `privacy.html` (all five languages, served at `/privacy`); update its date and text if what the site collects changes, e.g. when GA4 is switched on or a form backend is added
 8. Results section: when you have real, permissioned numbers, use the commented block in `index.html` (`[RESULT]`, `[CLIENT TESTIMONIAL]`)
 9. Have a native speaker check the Spanish, Danish, Albanian and Finnish copy in `i18n.js`
 

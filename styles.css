@@ -231,3 +231,17 @@ p { margin: 0; }
 .cookie-banner[hidden] { display: none; }
 .cookie-banner p { flex: 1 1 240px; }
 .cookie-actions { display: flex; gap: 8px; }
+
+/* Privacy page */
+.legal-page { padding-top: 40px; }
+@media (min-width: 720px) { .legal-page { padding-top: 64px; } }
+.legal { max-width: 820px; margin: 0 auto; padding: 24px; }
+@media (min-width: 720px) { .legal { padding: 48px; } }
+.legal h1 { font-size: clamp(30px, 5vw, 44px); max-width: none; }
+.legal h2 { font-size: 20px; max-width: none; margin: 32px 0 10px; }
+.legal p, .legal li { color: var(--ink-2); }
+.legal p + p { margin-top: 12px; }
+.legal ul { padding-left: 20px; margin: 10px 0 0; display: grid; gap: 8px; }
+.legal-updated { margin-top: 8px; font-size: 14px; color: var(--muted) !important; }
+.legal > p:nth-of-type(3) { margin-top: 20px; }
+.footer-link, .footer-legal a { color: var(--deep-ink); }
