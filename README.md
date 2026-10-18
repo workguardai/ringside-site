@@ -6,7 +6,7 @@ Static HTML/CSS/JS with no build step, no database and no secrets. It deploys as
 | --- | --- |
 | `index.html` | Page and English copy |
 | `i18n.js` | Spanish, Danish, Albanian and Finnish copy |
-| `main.js` | Language menu (EN/ES/DA/SQ/FI, also `?lang=da` etc.; follows the browser language on a first visit), contact links, mailto form, GA4 after consent |
+| `main.js` | Language menu (EN/ES/DA/SQ/FI, also `?lang=da` etc.; follows the browser language on a first visit), contact links, the contact form (sent to Ringside Scout at `config.js → inboundUrl`, with an email fallback; `?interest=scout` or a `data-interest` link pre-ticks a box), GA4 after consent |
 | `privacy.html`, `privacy.js` | Privacy policy in all five languages, at `/privacy` |
 | `config.js` | **Your settings**: WhatsApp, email, review link, GA4 ID |
 | `styles.css` | Crystal-blue theme with light and dark mode |
@@ -28,7 +28,8 @@ While a value in `config.js` is still in [brackets], the site treats it as not s
 
 1. `config.js` → `whatsappNumber`, e.g. `34600111222` (digits only)
 2. ~~`config.js` → `email`~~ set to besasonos@gmail.com; used by the "Send an email" button and the form
-3. `config.js` → `reviewLink`: leave it as is to use WhatsApp, or set a booking or mailto link
+3. `config.js` → `inboundUrl`: where the form is sent (Ringside Scout's `/api/inbound`). Leave it empty to fall back to opening the visitor's email app.
+4. `config.js` → `reviewLink`: leave it as is to use WhatsApp, or set a booking or mailto link
 4. ~~`config.js` → `ga4Id`~~ set to `G-V2EL07BWHQ` (own Ringside property). In GA4, set Admin → Data retention to 14 months to match the privacy policy
 5. ~~Pricing~~ set to "Free review first, then a tailored quote"; to change it later, edit `pricing.text` in `index.html` and `i18n.js`
 6. ~~Business details~~ same as Urawise for now (sole trader, Portuguese NIF 335038131, Sant Adrià de Besòs address); edit the footer in `index.html` and `footer.legal` in `i18n.js` if they change

@@ -49,6 +49,7 @@
       </a>
       <nav class="site-nav" aria-label="Main">
         <a href="#services" data-i18n="nav.services">Services</a>
+        <a href="#scout" data-i18n="nav.scout">Scout</a>
         <a href="#how" data-i18n="nav.how">How it works</a>
         <a href="#pricing" data-i18n="nav.pricing">Pricing</a>
         <a href="#contact" data-i18n="nav.contact">Contact</a>
@@ -64,6 +65,7 @@
             <option value="fi" lang="fi">Suomi</option>
           </select>
         </label>
+        <a class="signin-link" href="https://scout.urawise.eu/login" data-i18n="nav.signin">Sign in</a>
         <a class="btn btn-small" href="#contact" data-review-link data-i18n="cta.review">Book a free review</a>
       </div>
     </div>
@@ -146,6 +148,32 @@
             </ul>
           </article>
         </div>
+      </div>
+    </section>
+
+    <!-- RINGSIDE SCOUT -->
+    <section class="section section-alt" id="scout" aria-labelledby="scout-title">
+      <div class="wrap split">
+        <div class="scout-intro">
+          <p class="eyebrow" data-i18n="scout.eyebrow">Ringside Scout</p>
+          <h2 id="scout-title" data-i18n="scout.title">Honest outreach that never forgets a follow-up</h2>
+          <p data-i18n="scout.body">Ringside Scout is the lead tracker behind Ringside’s own outreach. Paste a LinkedIn profile or a company page and get a fit score, the right angle and a first message in your language, written within your own honesty rules. You read every word and send it yourself.</p>
+          <div class="scout-actions">
+            <a class="btn" href="#contact" data-interest="scout" data-i18n="scout.demo">Request a demo</a>
+            <a class="btn btn-ghost" href="https://scout.urawise.eu/login" data-i18n="scout.signin">Sign in to Scout</a>
+          </div>
+        </div>
+        <article class="card glass">
+          <div class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" /><path d="M16 16l5 5" /></svg></div>
+          <ul class="ticks">
+            <li data-i18n="scout.l1">A fit score and reasons for every lead, measured against your own target</li>
+            <li data-i18n="scout.l2">First messages and follow-ups in English, Spanish, Danish, Finnish or Albanian</li>
+            <li data-i18n="scout.l3">Today’s follow-ups in one list, one click to a ready Gmail draft</li>
+            <li data-i18n="scout.l4">Your business profile and honesty rules in every draft: no invented facts or results</li>
+            <li data-i18n="scout.l5">A weekly report and results per campaign version, so you see what works</li>
+          </ul>
+          <p class="tag" data-i18n="scout.tag">Early access: a personal demo first, then an offer that fits how you work.</p>
+        </article>
       </div>
     </section>
 
@@ -261,27 +289,47 @@
           </div>
         </div>
 
+        <div class="contact-box">
         <form class="contact-form" id="contact-form" novalidate>
           <div class="field">
             <label for="f-name" data-i18n="form.name">Your name</label>
-            <input id="f-name" name="name" type="text" autocomplete="name" required>
+            <input id="f-name" name="name" type="text" autocomplete="name" maxlength="200" required>
           </div>
           <div class="field">
             <label for="f-business" data-i18n="form.business">Business and website (if any)</label>
-            <input id="f-business" name="business" type="text" autocomplete="organization">
+            <input id="f-business" name="business" type="text" autocomplete="organization" maxlength="300">
           </div>
           <div class="field">
             <label for="f-email" data-i18n="form.email">Email or phone</label>
-            <input id="f-email" name="contact" type="text" autocomplete="email" required>
+            <input id="f-email" name="contact" type="text" autocomplete="email" maxlength="200" required>
           </div>
+          <fieldset class="interests">
+            <legend data-i18n="form.interests">What are you interested in?</legend>
+            <label class="check"><input type="checkbox" name="interests" value="ads"> <span data-i18n="form.i.ads">Ads and Google visibility</span></label>
+            <label class="check"><input type="checkbox" name="interests" value="website"> <span data-i18n="form.i.website">Website</span></label>
+            <label class="check"><input type="checkbox" name="interests" value="ai"> <span data-i18n="form.i.ai">AI tools</span></label>
+            <label class="check"><input type="checkbox" name="interests" value="scout"> <span data-i18n="form.i.scout">Ringside Scout demo</span></label>
+          </fieldset>
           <div class="field">
-            <label for="f-message" data-i18n="form.message">What would you like help with?</label>
-            <textarea id="f-message" name="message" rows="4" required></textarea>
+            <label for="f-message" data-i18n="form.message">Anything else? (optional if you ticked a box)</label>
+            <textarea id="f-message" name="message" rows="4" maxlength="3000"></textarea>
           </div>
-          <button class="btn btn-block" type="submit" data-i18n="form.submit">Send via email</button>
-          <p class="form-note" data-i18n="form.note">This opens your email app with the message ready to send. Nothing is stored on this website.</p>
-          <p class="form-error" role="alert" hidden data-i18n="form.error">Please fill in your name, a way to reach you and a short message.</p>
+          <div class="hp" aria-hidden="true">
+            <label for="f-hp">Leave this empty</label>
+            <input id="f-hp" name="hp" type="text" tabindex="-1" autocomplete="off">
+          </div>
+          <label class="check consent"><input type="checkbox" name="consent" required> <span data-i18n="form.consent">I agree that Ringside stores these details to reply to me. <a href="/privacy">Privacy policy</a></span></label>
+          <button class="btn btn-block" type="submit" data-i18n="form.submit">Send</button>
+          <p class="form-note" data-i18n="form.note">Your message goes straight to Ringside and is used only to reply to you.</p>
+          <p class="form-error" role="alert" hidden data-i18n="form.error">Please add your name, an email or phone number, tick a box or write a message, and agree to the privacy note.</p>
+          <p class="form-error" role="alert" hidden data-form-rate data-i18n="form.rate">Too many messages from here in a short time. Please try again later, or use email or WhatsApp.</p>
+          <p class="form-error" role="alert" hidden data-form-fail><span data-i18n="form.fail">Your message could not be sent right now.</span> <a href="#" data-fallback data-i18n="form.fallback">Send it by email instead</a></p>
         </form>
+        <div class="contact-form form-success" role="status" hidden data-form-success>
+          <h3 data-i18n="form.sentTitle">Thanks, your message has arrived</h3>
+          <p data-i18n="form.sent">I will reply personally, usually within one working day.</p>
+        </div>
+        </div>
       </div>
     </section>
   </main>

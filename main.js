@@ -10,7 +10,8 @@
     '_desc': document.querySelector('meta[name="description"]').content,
     '_wa': "Hi, I'd like a free review from Ringside.",
     '_subject': 'Ringside free review',
-    '_fName': 'Name', '_fBusiness': 'Business / website', '_fContact': 'Contact'
+    '_fName': 'Name', '_fBusiness': 'Business / website', '_fContact': 'Contact', '_fInterests': 'Interested in',
+    '_sending': 'Sending…'
   };
   var store = {
     get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
@@ -62,26 +63,90 @@
   setLang(urlLang || store.get('ringside-lang') || (LANGS.indexOf(browser) > -1 ? browser : 'en'));
   select.addEventListener('change', function () { setLang(select.value); });
 
-  /* ---------- Contact form: mailto (no backend) ---------- */
+  /* ---------- Contact form: sent to Ringside Scout, email as the fallback ---------- */
   var form = document.getElementById('contact-form');
-  var err = form.querySelector('.form-error');
+  var err = form.querySelector('.form-error:not([data-form-rate]):not([data-form-fail])');
+  var rateErr = form.querySelector('[data-form-rate]');
+  var failErr = form.querySelector('[data-form-fail]');
+  var success = document.querySelector('[data-form-success]');
+  var submit = form.querySelector('button[type="submit"]');
+  var shownAt = Date.now();
+
+  function values() {
+    var d = new FormData(form);
+    return {
+      name: (d.get('name') || '').trim(),
+      business: (d.get('business') || '').trim(),
+      contact: (d.get('contact') || '').trim(),
+      message: (d.get('message') || '').trim(),
+      interests: d.getAll('interests'),
+      hp: d.get('hp') || '',
+      consent: form.querySelector('[name="consent"]').checked
+    };
+  }
+  function interestLabels(list) {
+    return list.map(function (v) {
+      var el = form.querySelector('input[name="interests"][value="' + v + '"] + span');
+      return el ? el.textContent : v;
+    }).join(', ');
+  }
+  function sendByEmail(v) {
+    var body = [
+      t('_fName') + ': ' + v.name,
+      t('_fBusiness') + ': ' + v.business,
+      t('_fContact') + ': ' + v.contact,
+      t('_fInterests') + ': ' + interestLabels(v.interests),
+      '',
+      v.message
+    ].join('\n');
+    track('generate_lead', { method: 'mailto_form' });
+    window.location.href = 'mailto:' + mailTo + '?subject=' + encodeURIComponent(t('_subject') + ': ' + v.name) + '&body=' + encodeURIComponent(body);
+  }
+  function preselect(interest) {
+    var box = form.querySelector('input[name="interests"][value="' + interest + '"]');
+    if (box) box.checked = true;
+  }
+  var urlInterest = new URLSearchParams(location.search).get('interest');
+  if (urlInterest) preselect(urlInterest);
+  document.querySelectorAll('[data-interest]').forEach(function (a) {
+    a.addEventListener('click', function () { preselect(a.getAttribute('data-interest')); track('cta_demo_click'); });
+  });
+  failErr.querySelector('[data-fallback]').addEventListener('click', function (e) { e.preventDefault(); sendByEmail(values()); });
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    var d = new FormData(form);
-    var name = (d.get('name') || '').trim(), contact = (d.get('contact') || '').trim(), msg = (d.get('message') || '').trim();
-    if (!name || !contact || !msg) { err.hidden = false; return; }
+    var v = values();
+    rateErr.hidden = true; failErr.hidden = true;
+    if (!v.name || !v.contact || (!v.message && !v.interests.length) || !v.consent) { err.hidden = false; return; }
     err.hidden = true;
-    var body = [
-      t('_fName') + ': ' + name,
-      t('_fBusiness') + ': ' + (d.get('business') || '').trim(),
-      t('_fContact') + ': ' + contact,
-      '',
-      msg
-    ].join('\n');
-    var subject = t('_subject') + ': ' + name;
-    var to = mailTo;
-    track('generate_lead', { method: 'mailto_form' });
-    window.location.href = 'mailto:' + to + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    if (!isSet(cfg.inboundUrl)) { sendByEmail(v); return; }
+
+    var label = submit.innerHTML;
+    submit.disabled = true;
+    submit.textContent = t('_sending');
+    var payload = {
+      name: v.name, business: v.business, contact: v.contact, message: v.message, interests: v.interests,
+      lang: lang, consent: true, hp: v.hp, elapsed_ms: Date.now() - shownAt
+    };
+    fetch(cfg.inboundUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+      .then(function (res) { return res.json().catch(function () { return {}; }).then(function (body) { return { status: res.status, body: body }; }); })
+      .then(function (r) {
+        if (r.status === 200 && r.body.ok) {
+          track('generate_lead', { method: 'scout_form', interests: v.interests.join(',') });
+          form.hidden = true;
+          success.hidden = false;
+          success.setAttribute('tabindex', '-1');
+          success.focus();
+        } else if (r.status === 429) {
+          rateErr.hidden = false;
+        } else if (r.status === 400) {
+          err.hidden = false;
+        } else {
+          failErr.hidden = false;
+        }
+      })
+      .catch(function () { failErr.hidden = false; })
+      .then(function () { submit.disabled = false; submit.innerHTML = label; });
   });
 
   /* ---------- Analytics: GA4 only after consent (consent mode v2, basic) ---------- */

@@ -9,6 +9,9 @@ window.RINGSIDE_CONFIG = {
   // Where "Book a free review" goes. Leave as is to use WhatsApp, or set a
   // full link (e.g. a booking page or "mailto:you@example.com")
   reviewLink: "[WHATSAPP/EMAIL LINK]",
+  // Where the contact form is sent: Ringside Scout's inbound endpoint. If empty, the form opens
+  // the visitor's email app instead (the old behaviour).
+  inboundUrl: "https://scout.urawise.eu/api/inbound",
   // GA4 measurement ID from a NEW data stream for ringside.urawise.eu (G-XXXXXXX)
   ga4Id: "G-V2EL07BWHQ"
 };
