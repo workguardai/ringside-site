@@ -254,6 +254,8 @@ p { margin: 0; }
 @media (min-width: 720px) { .signin-link { display: inline; } }
 
 /* Contact form: interests, consent, spam trap, success */
+/* The form and the thank-you box use display: grid, which would override the hidden attribute. */
+.contact-form[hidden], .form-success[hidden] { display: none; }
 .interests { border: 1px solid var(--line-strong); border-radius: 12px; padding: 12px 14px 14px; margin: 0; display: grid; gap: 8px; }
 @media (min-width: 520px) { .interests { grid-template-columns: 1fr 1fr; } }
 .interests legend { padding: 0 6px; font-size: 14px; font-weight: 500; color: var(--ink-2); }
